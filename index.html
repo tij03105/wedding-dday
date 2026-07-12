@@ -30,7 +30,7 @@
         .illustration {
             width: 150px; /* 이미지 크기 조절 (원하는 대로 숫자 변경) */
             height: auto;
-            margin-bottom: 5px; /* 그림과 글씨 사이 간격 */
+            margin-bottom: 10px; /* 그림과 글씨 사이 간격 조금 넓힘 */
             object-fit: contain;
         }
 
@@ -41,8 +41,10 @@
             color: #333333; /* 짙은 회색(거의 검정)으로 손글씨 느낌 강조 */
             letter-spacing: 1px;
             display: flex;
-            gap: 10px; /* 제목과 디데이 사이 간격 */
+            flex-direction: column; /* ⭐️ 가로 정렬을 세로 정렬로 변경 */
+            gap: 5px; /* 제목과 디데이 사이 간격 좁힘 */
             align-items: center;
+            white-space: nowrap; /* ⭐️ 노션 폭이 좁아도 글씨가 줄바꿈되지 않게 강제 */
         }
     </style>
 </head>
@@ -67,22 +69,16 @@
         
         function calculateDday() {
             const now = new Date();
-            // 시간 정보를 없애고 날짜만 가져오기 (오차 방지)
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const targetDate = new Date(targetDateString);
             
-            // 대상 날짜를 Date 객체로 변환
-            const targetDateObj = new Date(targetDateString);
-            const targetDate = new Date(targetDateObj.getFullYear(), targetDateObj.getMonth(), targetDateObj.getDate());
-            
-            // 두 날짜 간의 밀리초 차이 계산
             const diffTime = targetDate.getTime() - today.getTime();
-            
-            // 밀리초를 일(Day)로 변환 (Math.round를 사용하여 정확하게 반올림)
-            const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
             const ddayElement = document.getElementById('dday-text');
             
             if (diffDays > 0) {
+                // 이미지처럼 "D-숫자" 형태로 출력
                 ddayElement.textContent = 'D-' + diffDays;
             } else if (diffDays === 0) {
                 ddayElement.textContent = 'D-Day🎉';
