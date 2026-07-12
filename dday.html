@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일러스트 감성 디데이 위젯</title>
+    <!-- 귀여운 손글씨 느낌의 구글 폰트(Hi Melody) 불러오기 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; 
+            background-color: transparent; /* 노션 배경에 녹아들도록 투명 */
+        }
+
+        .widget-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* 일러스트 이미지 스타일 */
+        .illustration {
+            width: 150px; /* 이미지 크기 조절 (원하는 대로 숫자 변경) */
+            height: auto;
+            margin-bottom: 5px; /* 그림과 글씨 사이 간격 */
+            object-fit: contain;
+        }
+
+        /* 글씨 스타일 */
+        .text-box {
+            font-family: "Hi Melody", sans-serif; /* 손글씨 폰트 적용 */
+            font-size: 28px; /* 글자 크기 */
+            color: #333333; /* 짙은 회색(거의 검정)으로 손글씨 느낌 강조 */
+            letter-spacing: 1px;
+            display: flex;
+            gap: 10px; /* 제목과 디데이 사이 간격 */
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="widget-container">
+        <!-- ⭐️ 1. 여기에 직접 그린 일러스트 이미지 링크를 넣으세요 ⭐️ -->
+        <img src="https://i.imgur.com/xJakGPD.png" alt="커플 그림" class="illustration" id="couple-img">
+        
+        <div class="text-box">
+            <!-- ⭐️ 2. 타이틀을 수정하세요 ⭐️ -->
+            <span class="title">유진♥승원 웨딩</span>
+            <span class="d-day" id="dday-text">계산 중...</span>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // ⭐️ 3. 목표 예식일 세팅 (YYYY-MM-DD) ⭐️
+        // ==========================================
+        const targetDateString = '2027-09-25'; 
+        
+        function calculateDday() {
+            const now = new Date();
+            // 시간 정보를 없애고 날짜만 가져오기 (오차 방지)
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            // 대상 날짜를 Date 객체로 변환
+            const targetDateObj = new Date(targetDateString);
+            const targetDate = new Date(targetDateObj.getFullYear(), targetDateObj.getMonth(), targetDateObj.getDate());
+            
+            // 두 날짜 간의 밀리초 차이 계산
+            const diffTime = targetDate.getTime() - today.getTime();
+            
+            // 밀리초를 일(Day)로 변환 (Math.round를 사용하여 정확하게 반올림)
+            const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+            
+            const ddayElement = document.getElementById('dday-text');
+            
+            if (diffDays > 0) {
+                ddayElement.textContent = 'D-' + diffDays;
+            } else if (diffDays === 0) {
+                ddayElement.textContent = 'D-Day🎉';
+            } else {
+                ddayElement.textContent = 'D+' + Math.abs(diffDays);
+            }
+        }
+
+        calculateDday();
+    </script>
+
+</body>
+</html>
